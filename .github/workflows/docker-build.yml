@@ -19,7 +19,7 @@ jobs:
         run: |
           docker build -t registry.qrgross.com/agropatria-api:latest ./agropatriaapi
 
-      # 3. Push al registry
+      # 3. Push al registry 
       - name: Push Docker image
         run: |
           docker push registry.qrgross.com/agropatria-api:latest
