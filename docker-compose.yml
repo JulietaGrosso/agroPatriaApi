@@ -3,10 +3,9 @@ version: "3.9"
 services:
   agropatria-api:
     build:
-      context: agropatriaapi
+      context: ./agropatriaapi
       dockerfile: Dockerfile
     image: agropatria-api:latest
     ports:
       - "8080:8080"
-    pull_policy: build
     restart: unless-stopped
