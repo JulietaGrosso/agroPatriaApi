@@ -3,7 +3,7 @@ version: "3.9"
 services:
   agropatria-api:
     build:
-      context: .
+      context: ./agropatriaapi
       dockerfile: Dockerfile
     image: agropatria-api:latest
     ports:
