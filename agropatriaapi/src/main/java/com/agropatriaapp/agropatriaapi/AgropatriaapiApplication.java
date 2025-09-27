@@ -10,4 +10,6 @@ public class AgropatriaapiApplication {
 		SpringApplication.run(AgropatriaapiApplication.class, args);
 	}
 
+	
+
 }

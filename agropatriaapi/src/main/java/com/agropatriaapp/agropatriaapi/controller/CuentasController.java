@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.agropatriaapp.agropatriaapi.dto.CuentasDto;
+import com.agropatriaapp.agropatriaapi.exceptions.NotFoundEntityException;
 import com.agropatriaapp.agropatriaapi.model.Cuentas;
 import com.agropatriaapp.agropatriaapi.services.CuentasService;
 
@@ -14,6 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @RestController
@@ -24,13 +29,23 @@ public class CuentasController {
     private CuentasService cuentasService;
 
     
-
-
-    @GetMapping("cuenta")
+    @GetMapping("cuentas")
     public ResponseEntity<?> getCuentas(){
         List<Cuentas>cuentas = cuentasService.getCuentas();
         return ResponseEntity.ok(cuentas);
     }
+
+    @PostMapping("registro")
+    public ResponseEntity<?>postCuenta(@RequestBody CuentasDto cuentasDto){
+        return ResponseEntity.ok(cuentasService.postRegistro(cuentasDto));
+    }
+    
+    @PostMapping("login")
+    public ResponseEntity<?>postLogin(@RequestBody CuentasDto cuentasDto) throws NotFoundEntityException{
+        return ResponseEntity.ok(cuentasService.postLogin(cuentasDto));
+    }
+    
+    
 }
 
 

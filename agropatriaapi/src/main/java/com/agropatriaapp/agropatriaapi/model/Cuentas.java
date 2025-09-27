@@ -1,11 +1,24 @@
 package com.agropatriaapp.agropatriaapi.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity(name="cuentas")
 public class Cuentas {
+    @Id
     private int id;
+    
+    @Column(name = "email")
     private String correo;
+    
+    @Column(name = "password")
     private String contrasena;
 
+    public Cuentas(){
 
+    }
+    
     public Cuentas(int id, String correo, String contrasena){
         this.id = id;
         this.correo = correo;
