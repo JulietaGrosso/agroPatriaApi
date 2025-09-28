@@ -8,7 +8,11 @@
             "mainClass": "com.agropatriaapp.agropatriaapi.AgropatriaapiApplication",
             "projectName": "agropatriaapi",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "env": {
+                "DB_URL": "jdbc:mysql://localhost:3306/agropatria?useSSL=false&allowPublicKeyRetrieval=true",
+                "DB_USERNAME": "root",
+                "DB_PASSWORD": "root"
+            }
         }
     ]
 }
