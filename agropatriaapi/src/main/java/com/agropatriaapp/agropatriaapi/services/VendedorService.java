@@ -4,8 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.agropatriaapp.agropatriaapi.dto.UserDetailsDto;
 import com.agropatriaapp.agropatriaapi.dto.VendedorDto;
 import com.agropatriaapp.agropatriaapi.exceptions.NotFoundEntityException;
 import com.agropatriaapp.agropatriaapi.model.Planes;
@@ -38,6 +42,11 @@ public class VendedorService {
 
    public Response postVendedor(VendedorDto vendedorDto){
     Vendedor vendedor = new Vendedor();
+     Authentication auto = 
+      SecurityContextHolder.getContext().getAuthentication();
+      UserDetails user = (UserDetails) auto.getPrincipal(); 
+      int userId = Integer.valueOf(user.getUsername());
+      vendedor.setIdCuentas(userId);
     vendedor.setNombre(vendedorDto.getNombre());
     vendedor.setRazon(vendedorDto.getRazon());
     vendedor.setCuitVendedor(vendedorDto.getCuitVendedor());

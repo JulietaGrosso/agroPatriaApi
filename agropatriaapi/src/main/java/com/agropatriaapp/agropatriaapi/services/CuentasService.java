@@ -66,7 +66,7 @@ public class CuentasService implements UserDetailsService {
 
         // Devuelve el User de Spring Security
         return org.springframework.security.core.userdetails.User
-                .withUsername(usuario.getCorreo())
+                .withUsername(String.valueOf(usuario.getId()))
                 .password("")
                 .authorities(Collections.emptyList())
                 .build();
