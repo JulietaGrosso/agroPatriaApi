@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:  # Esto permite ejecutar el flujo de trabajo manualmente desde la UI de GitHub
 
 jobs:
   build-and-push:
