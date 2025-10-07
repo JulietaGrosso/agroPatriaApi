@@ -15,11 +15,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 3. Aprobación manual antes de push (si se activa manualmente)
-      - name: Manual approval before pushing
-        uses: peter-evans/manual-approval@v2
+      - name: Require manual approval
+        uses: trstringer/manual-approval@v1
         with:
-          approvers: 'JulietaGrosso'  # Usuarios que pueden aprobar el paso
+          approvers: julietagrosso
+          minimum-approvals: 1
+          issue-title: "Approval required to push Docker image"
 
       # 2. Build de la imagen
       - name: Build Docker image
