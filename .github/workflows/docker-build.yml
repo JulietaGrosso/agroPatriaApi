@@ -15,18 +15,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 3. Aprobación manual antes de push (si se activa manualmente)
-      - name: Manual approval before pushing
-        uses: peter-evans/manual-approval@v2
-        with:
-          approvers: 'JulietaGrosso'  # Usuarios que pueden aprobar el paso
-
       # 2. Build de la imagen
       - name: Build Docker image
         run: |
           docker build -t registry.qrgross.com/agropatria-api:latest ./agropatriaapi
 
-      # 4. Push al registry si la aprobación fue dada
+      # 3. Push al registry si la aprobación fue dada
       - name: Push Docker image
         run: |
           docker push registry.qrgross.com/agropatria-api:latest
