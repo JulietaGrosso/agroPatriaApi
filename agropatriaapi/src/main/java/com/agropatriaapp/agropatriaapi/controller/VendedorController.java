@@ -14,6 +14,9 @@ import com.agropatriaapp.agropatriaapi.model.Cuentas;
 import com.agropatriaapp.agropatriaapi.model.Response;
 import com.agropatriaapp.agropatriaapi.model.Vendedor;
 import com.agropatriaapp.agropatriaapi.services.VendedorService;
+import com.mercadopago.exceptions.MPApiException;
+import com.mercadopago.exceptions.MPException;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,14 +68,10 @@ public class VendedorController {
     }
 
     @PostMapping("seleccionarPlan/{idPlan}")
-    public ResponseEntity<?> postPago(@PathVariable("idPlan") int idPlan){
+    public ResponseEntity<?> postPago(@PathVariable("idPlan") int idPlan) throws MPException, MPApiException, NotFoundEntityException{
         return ResponseEntity.ok(vendedorService.postPago(idPlan));
     }
-    
-
-
-
-    }
+}
 
 
 

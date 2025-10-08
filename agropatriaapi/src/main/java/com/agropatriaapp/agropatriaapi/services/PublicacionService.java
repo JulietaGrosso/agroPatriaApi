@@ -4,24 +4,43 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
+import com.agropatriaapp.agropatriaapi.AgropatriaapiApplication;
 import com.agropatriaapp.agropatriaapi.dto.BusquedaDto;
 import com.agropatriaapp.agropatriaapi.dto.PublicacionDto;
+import com.agropatriaapp.agropatriaapi.dto.PublicacionFiltroDto;
 import com.agropatriaapp.agropatriaapi.exceptions.NotFoundEntityException;
 import com.agropatriaapp.agropatriaapi.model.Busqueda;
 import com.agropatriaapp.agropatriaapi.model.Publicacion;
 import com.agropatriaapp.agropatriaapi.model.Response;
 import com.agropatriaapp.agropatriaapi.repositorios.PublicacionRespositorio;
+import com.agropatriaapp.agropatriaapi.specifications.PublicacionSpecifications;
 
 @Service
 public class PublicacionService {
 
+    private final AgropatriaapiApplication agropatriaapiApplication;
+
     @Autowired
     private PublicacionRespositorio publicacionRespositorio;
 
-    public List<Publicacion> getPublicaciones(){
-        return publicacionRespositorio.findAll();
+    PublicacionService(AgropatriaapiApplication agropatriaapiApplication) {
+        this.agropatriaapiApplication = agropatriaapiApplication;
+    }
+
+    public List<Publicacion> getPublicaciones(PublicacionFiltroDto listaFiltros){
+        Integer vendedorId = listaFiltros.getVendedor();
+        Integer productoId = listaFiltros.getProducto();
+        Integer condicion = listaFiltros.getCondicion();
+
+        Specification<Publicacion> filtro = Specification.unrestricted();
+        if ( vendedorId != null ) filtro = filtro.and(PublicacionSpecifications.byVendedorId(vendedorId));
+        if ( productoId != null ) filtro = filtro.and(PublicacionSpecifications.byProductoId(productoId));
+        if ( condicion != null ) filtro = filtro.and(PublicacionSpecifications.byCondicion(condicion));
+        
+        return publicacionRespositorio.findAll(filtro);
     }
 
     public Response postPublicacion(PublicacionDto publicacionDto){
