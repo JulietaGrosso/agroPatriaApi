@@ -1,6 +1,7 @@
 package com.agropatriaapp.agropatriaapi.model;
 
-import java.sql.Date;
+
+import java.util.Date;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
@@ -39,6 +40,18 @@ public class Pagos {
    @Column(name = "fechaPago")
    @Nullable
     private Date fechaPago;
+
+   @Column(name = "fechaExpiracion")
+   @Nullable
+   @Getter
+   @Setter
+    private Date fechaExpiracion;
+
+   @Column(name = "status")
+   @Nullable
+   @Getter
+   @Setter
+    private String status;
 
    @Column(name = "paymentId")
     private int paymentId;
