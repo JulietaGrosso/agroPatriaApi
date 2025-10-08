@@ -1,9 +1,26 @@
 package com.agropatriaapp.agropatriaapi.model;
 
+import java.sql.Date;
+
+import jakarta.annotation.Nullable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity(name="pagos")
 public class Pagos {
   
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "idPago")
+    @Setter
+    @Getter
+    private Integer idPago;
+
    @Column(name = "uuidPago")
     private String uuidPago;
 
@@ -20,21 +37,14 @@ public class Pagos {
     private int duracion;
 
    @Column(name = "fechaPago")
-    private int fechaPago;
+   @Nullable
+    private Date fechaPago;
 
    @Column(name = "paymentId")
     private int paymentId;
 
 
-    public Pagos(String uuidPago, int idCuenta, int idPlan, int monto, int duracion,
-     int fechaPago, int paymentId){
-      this.uuidPago = uuidPago;
-      this.idCuenta = idCuenta;
-      this.idPlan = idCuenta;
-      this.monto = monto;
-      this.duracion = duracion;
-      this.fechaPago = fechaPago;
-      this.paymentId = paymentId;
+    public Pagos(){
      }
 
 
@@ -78,11 +88,11 @@ public class Pagos {
     this.duracion = duracion;
   }
 
-  public int getFechaPago() {
+  public Date getFechaPago() {
     return this.fechaPago;
   }
 
-  public void setFechaPago(int fechaPago) {
+  public void setFechaPago(Date fechaPago) {
     this.fechaPago = fechaPago;
   }
 

@@ -1,0 +1,31 @@
+package com.agropatriaapp.agropatriaapi.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+import com.agropatriaapp.agropatriaapi.services.MercadoPagoService;
+import com.fasterxml.jackson.databind.JsonNode;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+
+@RestController
+@RequestMapping("mercadopago")
+public class MercadoPagoController {
+  @Autowired
+  MercadoPagoService mercadoPagoService;
+  
+  @PostMapping("notification")
+  public ResponseEntity<?> paymentNotification(@RequestBody JsonNode payload) {
+      
+      return ResponseEntity.ok().body(
+        mercadoPagoService.paymentNotification(payload)
+      );
+  }
+  
+}

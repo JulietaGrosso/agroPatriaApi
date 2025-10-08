@@ -5,19 +5,35 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.agropatriaapp.agropatriaapi.dto.ProductoFiltroDto;
 import com.agropatriaapp.agropatriaapi.model.Productos;
+import com.agropatriaapp.agropatriaapi.model.Publicacion;
 import com.agropatriaapp.agropatriaapi.repositorios.ProductosRepositorio;
+import com.agropatriaapp.agropatriaapi.specifications.ProductoSpecifications;
+import com.agropatriaapp.agropatriaapi.specifications.PublicacionSpecifications;
 
 @Service
 public class ProductosService {
 @Autowired
 private ProductosRepositorio productosRepositorio;
 
-public List<Productos> getProductos(){
+public List<Productos> buscarProductos(ProductoFiltroDto filtros){
+    Integer categoriaId = filtros.getCategoria();
+    String nombre = filtros.getNombre();
+
+    Specification<Productos> filtro = Specification.unrestricted();
+    if ( categoriaId != null ) filtro = filtro.and(ProductoSpecifications.byCategoria(categoriaId));
+    if ( nombre != null ) filtro = filtro.and(ProductoSpecifications.containsName(nombre));
+
+    return productosRepositorio.findAll(filtro);
+}
+
+public List<Productos> getProductos(Integer categoriaFiltro){
     List<Productos> listaProductos = new ArrayList<>();
-    List<Map<String,Object>> lista = productosRepositorio.buscarProductosDePublicaciones();
+    List<Map<String,Object>> lista = productosRepositorio.buscarProductosDePublicaciones(categoriaFiltro);
     
     for(Map<String,Object> o : lista){
         Productos productos = new Productos();

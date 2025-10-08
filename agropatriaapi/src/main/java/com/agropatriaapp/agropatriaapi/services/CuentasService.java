@@ -14,11 +14,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.agropatriaapp.agropatriaapi.dto.CuentasDto;
+import com.agropatriaapp.agropatriaapi.dto.MyInfoDto;
 import com.agropatriaapp.agropatriaapi.exceptions.NotFoundEntityException;
 import com.agropatriaapp.agropatriaapi.model.Cuentas;
+import com.agropatriaapp.agropatriaapi.model.Pagos;
 import com.agropatriaapp.agropatriaapi.model.Response;
+import com.agropatriaapp.agropatriaapi.model.Vendedor;
 import com.agropatriaapp.agropatriaapi.repositorios.CuentasRepositorio;
+import com.agropatriaapp.agropatriaapi.repositorios.VendedorRepositorio;
 import com.agropatriaapp.agropatriaapi.utils.EncryptUtils;
+import com.agropatriaapp.agropatriaapi.utils.Utils;
 
 
 @Service
@@ -27,7 +32,13 @@ public class CuentasService implements UserDetailsService {
     @Autowired
     private CuentasRepositorio cuentasRepositorio;
 
-     public List<Cuentas> getCuentas(){
+    @Autowired
+    private VendedorService vendedorService;
+
+    @Autowired
+    private PagoService pagoService;
+
+    public List<Cuentas> getCuentas(){
         return cuentasRepositorio.findAll();
     }
 
@@ -70,6 +81,31 @@ public class CuentasService implements UserDetailsService {
                 .password("")
                 .authorities(Collections.emptyList())
                 .build();
+    }
+
+    public MyInfoDto getMyInformation() {
+        int userId = Utils.getAuthenticatedUserId();
+        MyInfoDto myInfo = new MyInfoDto();
+        Optional<Cuentas> cuentasOp = cuentasRepositorio.findById(userId);
+        
+
+        if ( cuentasOp.isPresent() ) {
+            myInfo.setCuenta(cuentasOp.get());
+        }
+
+        try {
+            Vendedor vendedor = vendedorService.getVendedor(userId);
+            myInfo.setVendedor(vendedor);
+
+            Pagos pago = pagoService.getLastPayment(userId);
+            myInfo.setUltimoPago(pago);
+        }
+        catch(NotFoundEntityException e) {
+            myInfo.setVendedor(null);
+        }
+
+        return myInfo;
+
     }
 
 

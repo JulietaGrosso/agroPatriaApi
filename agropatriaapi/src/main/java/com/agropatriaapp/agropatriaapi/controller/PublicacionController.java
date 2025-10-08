@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agropatriaapp.agropatriaapi.dto.PublicacionDto;
+import com.agropatriaapp.agropatriaapi.dto.PublicacionFiltroDto;
 import com.agropatriaapp.agropatriaapi.exceptions.NotFoundEntityException;
 import com.agropatriaapp.agropatriaapi.model.Publicacion;
 import com.agropatriaapp.agropatriaapi.model.Response;
@@ -33,10 +34,22 @@ public class PublicacionController {
     PublicacionService publicacionService;
 
     @GetMapping("publicaciones")
-       public ResponseEntity<?> getPublicaciones(){
-         List<Publicacion> publicacion = publicacionService.getPublicaciones();
-         return ResponseEntity.ok(publicacion);
-       }
+    public ResponseEntity<?> getPublicaciones(
+      @RequestParam(required = false) Integer vendedor,
+      @RequestParam(required = false) Integer producto,
+      @RequestParam(required = false) Integer condicion
+    ) {
+      PublicacionFiltroDto filtros =
+          PublicacionFiltroDto
+          .builder()
+          .producto(producto)
+          .condicion(condicion)
+          .vendedor(vendedor)
+          .build();
+
+      List<Publicacion> publicacion = publicacionService.getPublicaciones(filtros);
+      return ResponseEntity.ok(publicacion);
+    }
     
     @PostMapping
     public ResponseEntity<?> postPublicaciones(@RequestBody PublicacionDto publicacionDto){

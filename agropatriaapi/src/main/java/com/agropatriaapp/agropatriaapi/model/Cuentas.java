@@ -1,5 +1,7 @@
 package com.agropatriaapp.agropatriaapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,6 +14,7 @@ public class Cuentas {
     @Column(name = "email")
     private String correo;
     
+    @JsonIgnore
     @Column(name = "password")
     private String contrasena;
 

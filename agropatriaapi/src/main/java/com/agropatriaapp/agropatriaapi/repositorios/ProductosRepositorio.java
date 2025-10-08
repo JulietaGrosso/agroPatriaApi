@@ -5,20 +5,24 @@ import java.util.Map;
 
 import org.hibernate.type.descriptor.converter.spi.JpaAttributeConverter;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.agropatriaapp.agropatriaapi.model.Productos;
 
 @Repository
-public interface ProductosRepositorio extends JpaRepository<Productos,Integer>{
+public interface ProductosRepositorio extends JpaRepository<Productos,Integer>, JpaSpecificationExecutor<Productos>{
 
     @Query(
-        value = "select *, (select count(*) from publicacion where productos_id = p.id) as cantidadPublicaciones from productos p",
+        value = "SELECT *, " +
+                "(SELECT COUNT(*) FROM publicacion WHERE productos_id = p.id) AS cantidadPublicaciones " +
+                "FROM productos p " +
+                "WHERE (:categoriaFiltro IS NULL OR categoria = :categoriaFiltro)",
         nativeQuery= true
      )
 
-    List<Map<String, Object>> buscarProductosDePublicaciones();
+    List<Map<String, Object>> buscarProductosDePublicaciones(Integer categoriaFiltro);
 
 
 } 
