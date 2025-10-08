@@ -61,6 +61,7 @@ public class MercadoPagoService {
         .items(items)
         .externalReference(paymentId)
         .notificationUrl("http://104.251.222.158:1400/mercadopago/notification")
+        //.notificationUrl("http://104.251.222.158:1400/mercadopago/notification/" + paymentId) // No borrar ni descomentar.
         .backUrls(backUrls)
         .build();
 
