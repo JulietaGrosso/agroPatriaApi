@@ -16,13 +16,16 @@ public class WebHookLogs {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id")
-    @Setter
     @Getter
     private int id;
 
+    @Column(name = "paymentUuid")
+    @Lob
+    @Getter
+    private String paymentUuid;
+
     @Column(name = "log", columnDefinition = "json")
     @Lob
-    @Setter
     @Getter
     private String log;
 
@@ -37,4 +40,27 @@ public class WebHookLogs {
   public WebHookLogs() {
     this.fechaCreacion = LocalDateTime.now();
   }
+
+  public static WebHookLogs builder(){
+    return new WebHookLogs();
+  }
+
+
+  public WebHookLogs setId(int id) {
+    this.id = id;
+
+    return this;
+  }
+
+  public WebHookLogs setLog(String log) {
+    this.log = log;
+    return this;
+  }
+
+  public WebHookLogs setPaymentUuid(String pUuid) {
+    this.paymentUuid = pUuid;
+    return this;
+  }
+
+  
 }
