@@ -2,6 +2,7 @@ package com.agropatriaapp.agropatriaapi.repositorios;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.hibernate.type.descriptor.converter.spi.JpaAttributeConverter;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,8 +23,8 @@ public interface ProductosRepositorio extends JpaRepository<Productos,Integer>, 
                 "AND (:condicionFiltro IS NULL OR condicion = :condicionFiltro)",
         nativeQuery= true
      )
-
     List<Map<String, Object>> buscarProductosDePublicaciones(Integer categoriaFiltro, Integer condicionFiltro);
 
+    Optional<Productos> findTop1ByNombreContainingIgnoreCase(String nombreFiltro);
 
 } 

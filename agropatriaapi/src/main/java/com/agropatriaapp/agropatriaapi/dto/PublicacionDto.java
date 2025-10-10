@@ -38,7 +38,15 @@ public class PublicacionDto {
 
     @Getter
     @Setter
+    private String modelo;
+
+    @Getter
+    @Setter
     private Integer precio;
+
+    @Getter
+    @Setter
+    private Integer categoria;
 
     @Getter
     @Setter
