@@ -17,6 +17,7 @@ import com.agropatriaapp.agropatriaapi.model.Vendedor;
 import com.agropatriaapp.agropatriaapi.repositorios.PagoRepositorio;
 import com.agropatriaapp.agropatriaapi.repositorios.PlanRepositorio;
 import com.agropatriaapp.agropatriaapi.repositorios.VendedorRepositorio;
+import com.agropatriaapp.agropatriaapi.utils.AuthUtil;
 import com.agropatriaapp.agropatriaapi.utils.Utils;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
@@ -56,7 +57,7 @@ public class VendedorService {
 
    public Response postVendedor(VendedorDto vendedorDto){
     Vendedor vendedor = new Vendedor();
-    int userId = Utils.getAuthenticatedUserId();
+    int userId = AuthUtil.getAuthenticatedUserId();
     vendedor.setIdCuentas(userId);
     vendedor.setNombre(vendedorDto.getNombre());
     vendedor.setRazon(vendedorDto.getRazon());
@@ -92,7 +93,7 @@ public class VendedorService {
       Optional<Planes> planesOp = planRepositorio.findById(idPlan);
       if(planesOp.isPresent()){
         Planes planes = planesOp.get();
-        int userId = Utils.getAuthenticatedUserId();
+        int userId = AuthUtil.getAuthenticatedUserId();
         String paymentUuid = UUID.randomUUID().toString();
         String paymentUrl = mercadoPagoService.generatePaymentUrl(paymentUuid, planes.getTitulo(), planes.getPrecio());
         
