@@ -38,7 +38,21 @@ public class WebSecurityConfig {
         // Updated configuration for Spring Security 6.x
         http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF
-                .cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
+                .cors(cors -> cors.configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowCredentials(true);
+                    config.addAllowedOrigin("http://localhost:3000");
+                    config.addAllowedOrigin("http://localhost:5173");
+                    config.addAllowedOrigin("https://julietagrosso.github.io");
+                    config.addAllowedHeader("*");
+                    // Permitimos todos los métodos
+                    config.addAllowedMethod("GET");
+                    config.addAllowedMethod("POST");
+                    config.addAllowedMethod("PUT");
+                    config.addAllowedMethod("DELETE");
+                    config.addAllowedMethod("OPTIONS");
+                    return config;
+                }))
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling.authenticationEntryPoint(unauthorizedHandler)
                 )
