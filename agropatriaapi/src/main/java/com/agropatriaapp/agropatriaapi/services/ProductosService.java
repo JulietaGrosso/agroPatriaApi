@@ -3,17 +3,17 @@ package com.agropatriaapp.agropatriaapi.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.agropatriaapp.agropatriaapi.dto.ProductoFiltroDto;
+import com.agropatriaapp.agropatriaapi.dto.PublicacionDto;
 import com.agropatriaapp.agropatriaapi.model.Productos;
-import com.agropatriaapp.agropatriaapi.model.Publicacion;
 import com.agropatriaapp.agropatriaapi.repositorios.ProductosRepositorio;
 import com.agropatriaapp.agropatriaapi.specifications.ProductoSpecifications;
-import com.agropatriaapp.agropatriaapi.specifications.PublicacionSpecifications;
 
 @Service
 public class ProductosService {
@@ -67,7 +67,35 @@ public List<Productos> getProductos(Integer categoriaFiltro, Integer condicionFi
     return listaProductos;
 }
 
+    public Productos getProductOrSave(PublicacionDto publicacionDto){
+        int id = publicacionDto.getProductoId();
+        Optional<Productos> productoOpt = productosRepositorio.findById(id);
+        if ( productoOpt.isPresent() ) return productoOpt.get();
 
+        String modelo = publicacionDto.getModelo().toLowerCase().trim();
+        Optional<Productos> productoByNameOpt = productosRepositorio.findTop1ByNombreContainingIgnoreCase(modelo);
+        if ( productoByNameOpt.isPresent() ) return productoByNameOpt.get();
+
+        // Guardamos producto
+        Productos producto = new Productos();
+        producto.setCategoria(publicacionDto.getCategoria());
+        producto.setClasificacion(publicacionDto.getModelo());
+        int condicion = publicacionDto.getCondicion().equalsIgnoreCase("nuevo") ? 1 : 0;
+        producto.setCondicion(condicion);
+        producto.setDescripcion(publicacionDto.getDescripcionPublic());
+
+        String images = "[" + publicacionDto.getImagenes().get(0) + "]";
+
+        producto.setImagen(images);
+        producto.setMoneda("$");
+        producto.setNombre(publicacionDto.getModelo());
+        producto.setPrecio(publicacionDto.getPrecio());
+        producto.setRegion(publicacionDto.getCiudad());
+
+        Productos productoGuardado = productosRepositorio.saveAndFlush(producto);
+        return productoGuardado;
+        
+    }
 
 
 }

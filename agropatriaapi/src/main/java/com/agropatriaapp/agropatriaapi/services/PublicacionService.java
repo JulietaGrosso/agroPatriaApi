@@ -9,16 +9,20 @@ import org.springframework.stereotype.Service;
 import com.agropatriaapp.agropatriaapi.dto.PublicacionDto;
 import com.agropatriaapp.agropatriaapi.dto.PublicacionFiltroDto;
 import com.agropatriaapp.agropatriaapi.exceptions.NotFoundEntityException;
+import com.agropatriaapp.agropatriaapi.model.Productos;
 import com.agropatriaapp.agropatriaapi.model.Publicacion;
 import com.agropatriaapp.agropatriaapi.model.Response;
 import com.agropatriaapp.agropatriaapi.repositorios.PublicacionRespositorio;
 import com.agropatriaapp.agropatriaapi.specifications.PublicacionSpecifications;
+import com.agropatriaapp.agropatriaapi.utils.Utils;
 
 @Service
 public class PublicacionService {
 
     @Autowired
     private PublicacionRespositorio publicacionRespositorio;
+
+    @Autowired ProductosService productosService;
 
     public Publicacion getPublicacion(int idPublicacion) throws NotFoundEntityException{
         Optional<Publicacion> publiOp = publicacionRespositorio.findById(idPublicacion);
@@ -44,8 +48,11 @@ public class PublicacionService {
 
     public Response postPublicacion(PublicacionDto publicacionDto){
         Publicacion publicacion = new Publicacion();
-        publicacion.setProductosId(publicacionDto.getProductoId());
-        publicacion.setVendedorCuentasId(publicacionDto.getVendedorCuentasId());
+        Productos producto = productosService.getProductOrSave(publicacionDto);
+        int userId = Utils.getAuthenticatedUserId();
+
+        publicacion.setProductosId(producto.getIdProducto());
+        publicacion.setVendedorCuentasId(userId);
         publicacion.setVendido(publicacionDto.isVendido());
         publicacion.setNombrePublicacion(publicacionDto.getNombrePublicacion());
         publicacion.setDescripcionPublic(publicacionDto.getDescripcionPublic());
