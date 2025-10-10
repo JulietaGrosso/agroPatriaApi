@@ -24,9 +24,10 @@ public class ProductosController {
 
     @GetMapping("producto")
     public ResponseEntity<?> getProductos(
-      @RequestParam(required = false) Integer categoria
+      @RequestParam(required = false) Integer categoria,
+      @RequestParam(required = false) Integer condicion
     ){
-        List<Productos>productos = productosService.getProductos(categoria);
+        List<Productos>productos = productosService.getProductos(categoria, condicion);
         return ResponseEntity.ok(productos); 
     }
 

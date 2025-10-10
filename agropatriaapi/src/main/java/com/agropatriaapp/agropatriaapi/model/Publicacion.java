@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,6 +41,7 @@ public class Publicacion {
     private Integer precio;
 
     @Column(name = "imagenes")
+    @Lob
     private List<String> imagenes;
 
     @ManyToOne()

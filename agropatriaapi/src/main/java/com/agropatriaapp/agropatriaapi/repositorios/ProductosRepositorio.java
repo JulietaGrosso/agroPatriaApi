@@ -18,11 +18,12 @@ public interface ProductosRepositorio extends JpaRepository<Productos,Integer>, 
         value = "SELECT *, " +
                 "(SELECT COUNT(*) FROM publicacion WHERE productos_id = p.id) AS cantidadPublicaciones " +
                 "FROM productos p " +
-                "WHERE (:categoriaFiltro IS NULL OR categoria = :categoriaFiltro)",
+                "WHERE (:categoriaFiltro IS NULL OR categoria = :categoriaFiltro)" +
+                "AND (:condicionFiltro IS NULL OR condicion = :condicionFiltro)",
         nativeQuery= true
      )
 
-    List<Map<String, Object>> buscarProductosDePublicaciones(Integer categoriaFiltro);
+    List<Map<String, Object>> buscarProductosDePublicaciones(Integer categoriaFiltro, Integer condicionFiltro);
 
 
 } 

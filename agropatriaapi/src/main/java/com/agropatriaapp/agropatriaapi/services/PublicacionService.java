@@ -4,15 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import com.agropatriaapp.agropatriaapi.AgropatriaapiApplication;
-import com.agropatriaapp.agropatriaapi.dto.BusquedaDto;
 import com.agropatriaapp.agropatriaapi.dto.PublicacionDto;
 import com.agropatriaapp.agropatriaapi.dto.PublicacionFiltroDto;
 import com.agropatriaapp.agropatriaapi.exceptions.NotFoundEntityException;
-import com.agropatriaapp.agropatriaapi.model.Busqueda;
 import com.agropatriaapp.agropatriaapi.model.Publicacion;
 import com.agropatriaapp.agropatriaapi.model.Response;
 import com.agropatriaapp.agropatriaapi.repositorios.PublicacionRespositorio;
@@ -21,13 +17,16 @@ import com.agropatriaapp.agropatriaapi.specifications.PublicacionSpecifications;
 @Service
 public class PublicacionService {
 
-    private final AgropatriaapiApplication agropatriaapiApplication;
-
     @Autowired
     private PublicacionRespositorio publicacionRespositorio;
 
-    PublicacionService(AgropatriaapiApplication agropatriaapiApplication) {
-        this.agropatriaapiApplication = agropatriaapiApplication;
+    public Publicacion getPublicacion(int idPublicacion) throws NotFoundEntityException{
+        Optional<Publicacion> publiOp = publicacionRespositorio.findById(idPublicacion);
+        if(publiOp.isPresent()){
+            return publiOp.get();
+        }
+
+        throw new NotFoundEntityException("No se encontró la publicación.");
     }
 
     public List<Publicacion> getPublicaciones(PublicacionFiltroDto listaFiltros){

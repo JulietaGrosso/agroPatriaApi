@@ -33,6 +33,11 @@ public class PublicacionController {
     @Autowired 
     PublicacionService publicacionService;
 
+    @GetMapping("{id}")
+    public ResponseEntity<?> getPublicacion(@PathVariable("id") int id) throws NotFoundEntityException{
+        return ResponseEntity.ok(publicacionService.getPublicacion(id));
+    }
+
     @GetMapping("publicaciones")
     public ResponseEntity<?> getPublicaciones(
       @RequestParam(required = false) Integer vendedor,

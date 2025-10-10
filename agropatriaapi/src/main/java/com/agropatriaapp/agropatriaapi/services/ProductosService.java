@@ -31,9 +31,9 @@ public List<Productos> buscarProductos(ProductoFiltroDto filtros){
     return productosRepositorio.findAll(filtro);
 }
 
-public List<Productos> getProductos(Integer categoriaFiltro){
+public List<Productos> getProductos(Integer categoriaFiltro, Integer condicionFiltro){
     List<Productos> listaProductos = new ArrayList<>();
-    List<Map<String,Object>> lista = productosRepositorio.buscarProductosDePublicaciones(categoriaFiltro);
+    List<Map<String,Object>> lista = productosRepositorio.buscarProductosDePublicaciones(categoriaFiltro, condicionFiltro);
     
     for(Map<String,Object> o : lista){
         Productos productos = new Productos();
