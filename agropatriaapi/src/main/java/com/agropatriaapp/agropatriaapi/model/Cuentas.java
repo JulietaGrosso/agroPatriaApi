@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity(name="cuentas")
 public class Cuentas {
@@ -20,6 +22,11 @@ public class Cuentas {
     @JsonIgnore
     @Column(name = "password")
     private String contrasena;
+
+    @Column(name = "isAdmin")
+    @Getter
+    @Setter
+    private boolean isAdmin = false;
 
     public Cuentas(){
 

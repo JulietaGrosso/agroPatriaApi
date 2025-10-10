@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +24,7 @@ import com.agropatriaapp.agropatriaapi.model.Response;
 import com.agropatriaapp.agropatriaapi.model.Vendedor;
 import com.agropatriaapp.agropatriaapi.repositorios.CuentasRepositorio;
 import com.agropatriaapp.agropatriaapi.repositorios.VendedorRepositorio;
+import com.agropatriaapp.agropatriaapi.utils.AuthUtil;
 import com.agropatriaapp.agropatriaapi.utils.EncryptUtils;
 import com.agropatriaapp.agropatriaapi.utils.Utils;
 
@@ -51,6 +54,7 @@ public class CuentasService implements UserDetailsService {
             String contrasenaEncript = EncryptUtils.encriptarContrasena(cuentasDto.getContrasena());
             cuentas.setCorreo(cuentasDto.getCorreo());
             cuentas.setContrasena(contrasenaEncript);
+            cuentas.setAdmin(false);
             cuentasRepositorio.save(cuentas);
             return new Response(true, "Agregado Correctamente");
         }
@@ -75,16 +79,24 @@ public class CuentasService implements UserDetailsService {
         Cuentas usuario = cuentasRepositorio.findById(Integer.valueOf(username))
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + username));
 
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        if (usuario.isAdmin()) {
+            authorities.add(new SimpleGrantedAuthority("ADMINISTRADOR"));
+        } else {
+            authorities.add(new SimpleGrantedAuthority("VENDEDOR"));
+        }
+
         // Devuelve el User de Spring Security
         return org.springframework.security.core.userdetails.User
                 .withUsername(String.valueOf(usuario.getId()))
                 .password("")
-                .authorities(Collections.emptyList())
+                .authorities(authorities)
                 .build();
     }
 
     public MyInfoDto getMyInformation() {
-        int userId = Utils.getAuthenticatedUserId();
+        int userId = AuthUtil.getAuthenticatedUserId();
         MyInfoDto myInfo = new MyInfoDto();
         Optional<Cuentas> cuentasOp = cuentasRepositorio.findById(userId);
         

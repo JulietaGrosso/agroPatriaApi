@@ -14,6 +14,7 @@ import com.agropatriaapp.agropatriaapi.model.Publicacion;
 import com.agropatriaapp.agropatriaapi.model.Response;
 import com.agropatriaapp.agropatriaapi.repositorios.PublicacionRespositorio;
 import com.agropatriaapp.agropatriaapi.specifications.PublicacionSpecifications;
+import com.agropatriaapp.agropatriaapi.utils.AuthUtil;
 import com.agropatriaapp.agropatriaapi.utils.Utils;
 
 @Service
@@ -49,7 +50,7 @@ public class PublicacionService {
     public Response postPublicacion(PublicacionDto publicacionDto){
         Publicacion publicacion = new Publicacion();
         Productos producto = productosService.getProductOrSave(publicacionDto);
-        int userId = Utils.getAuthenticatedUserId();
+        int userId = AuthUtil.getAuthenticatedUserId();
 
         publicacion.setProductosId(producto.getIdProducto());
         publicacion.setVendedorCuentasId(userId);
@@ -60,6 +61,7 @@ public class PublicacionService {
         publicacion.setCiudad(publicacionDto.getCiudad());
         publicacion.setPrecio(publicacionDto.getPrecio());
         publicacion.setImagenes(publicacionDto.getImagenes());
+        publicacion.setPrecio(publicacionDto.getPrecio());
         publicacionRespositorio.save(publicacion);
         return new Response(true, "Agregado Correctamente");
     }
