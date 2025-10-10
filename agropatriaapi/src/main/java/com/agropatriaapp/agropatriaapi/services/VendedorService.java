@@ -1,16 +1,13 @@
 package com.agropatriaapp.agropatriaapi.services;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.agropatriaapp.agropatriaapi.dto.UserDetailsDto;
 import com.agropatriaapp.agropatriaapi.dto.VendedorDto;
 import com.agropatriaapp.agropatriaapi.exceptions.NotFoundEntityException;
 import com.agropatriaapp.agropatriaapi.model.Pagos;
@@ -48,6 +45,9 @@ public class VendedorService {
      throw new NotFoundEntityException("Vendedor no encontrado");
     }
 
+    public List<Map<String, Object>> getVendedorsConfiaron() {
+      return vendedorRepositorio.getVendedoresConfiaron();
+    }
 
    public Response deleteVendedor(int idCuentas){
         vendedorRepositorio.deleteById(idCuentas);
@@ -65,6 +65,7 @@ public class VendedorService {
     vendedor.setLogo(vendedorDto.getLogo());
     vendedor.setPlanesIdPlan(vendedorDto.getPlanesIdPlan());
     vendedor.setProvinciaVendedor(vendedorDto.getProvinciaVendedor());
+    vendedor.setContacto(vendedorDto.getContacto());
     vendedorRepositorio.save(vendedor);
     return new Response(true, "Agregado correctamente");
    }
@@ -80,6 +81,7 @@ public class VendedorService {
           vendedor.setProvinciaVendedor(vendedorDto.getProvinciaVendedor());
           vendedor.setLogo(vendedorDto.getLogo());
           vendedor.setPlanesIdPlan(vendedorDto.getPlanesIdPlan());;
+          vendedor.setContacto(vendedorDto.getContacto());
           vendedorRepositorio.save(vendedor);
           return new Response(true, "Se actualizó correctamente");
      }

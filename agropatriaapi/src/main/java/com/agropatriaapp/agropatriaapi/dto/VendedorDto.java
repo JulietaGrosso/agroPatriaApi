@@ -32,6 +32,9 @@ public class VendedorDto {
     @Setter
     private int planesIdPlan;
 
+    @Getter
+    @Setter
+    private String contacto;
 
     public VendedorDto(String nombre, String razon, long cuit_vendedor, String localidadVendedor,
      String provinciaVendedor, String logo, int planes_id_plan){

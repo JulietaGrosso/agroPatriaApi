@@ -45,6 +45,11 @@ public class VendedorController {
             return ResponseEntity.status(404).body(new Response(false, "El vendedor no se encontró"));
         }
     }
+
+    @GetMapping("confiaron")
+    public ResponseEntity<?> getVendedorsConfiaron() {
+        return ResponseEntity.ok(vendedorService.getVendedorsConfiaron());
+    }
     
     @PostMapping
     public ResponseEntity<?>postVendedor(@RequestBody VendedorDto vendedorDto, @RequestHeader (name="Authorization") String token){

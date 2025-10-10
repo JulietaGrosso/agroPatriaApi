@@ -3,6 +3,8 @@ package com.agropatriaapp.agropatriaapi.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity(name="vendedor")
 public class Vendedor {
@@ -29,6 +31,11 @@ public class Vendedor {
 
     @Column(name = "planes_id_plan")
     private int planesIdPlan;
+
+    @Column(name = "contacto")
+    @Setter
+    @Getter
+    private String contacto;
 
     public Vendedor(){
         
