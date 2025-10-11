@@ -9,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import lombok.Getter;
-import lombok.Setter;
 
 @Entity(name = "webhooklogs")
 public class WebHookLogs {
