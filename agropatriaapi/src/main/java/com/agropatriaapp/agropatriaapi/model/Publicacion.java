@@ -1,10 +1,10 @@
 package com.agropatriaapp.agropatriaapi.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,12 +37,21 @@ public class Publicacion {
     @Column(name = "ciudad")
     private String ciudad;
 
+    @Column(name = "modelo")
+    @Getter
+    @Setter
+    private String modelo;
+
     @Column(name = "precio")
     private Integer precio;
 
     @Column(name = "imagenes")
     @Lob
     private List<String> imagenes;
+
+    @Column(name = "fecha_publicacion", nullable = false, updatable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Getter
+    private LocalDateTime fechaPublicacion;
 
     @ManyToOne()
     @JoinColumn(name = "vendedor_cuentas_id", referencedColumnName = "idCuentas", insertable = false, updatable = false)
@@ -51,6 +60,7 @@ public class Publicacion {
     private Vendedor vendedor;
 
     public Publicacion(){
+        this.fechaPublicacion = LocalDateTime.now();
 
     }
     public Publicacion(int id, int productosId, int vendedorCuentasId, boolean vendido){
@@ -58,6 +68,7 @@ public class Publicacion {
         this.productosId = productosId;
         this.vendedorCuentasId = vendedorCuentasId;
         this.vendido = vendido;
+        this.fechaPublicacion = LocalDateTime.now();
     }
 
 

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.agropatriaapp.agropatriaapi.model.Vendedor;
@@ -28,5 +29,23 @@ public interface VendedorRepositorio extends JpaRepository<Vendedor, Integer> {
         nativeQuery = true
     )
     List<Map<String, Object>> findAllVendedoresConEmail();
+
+    @Query(value = """
+        SELECT 
+            (
+                SELECT COUNT(*) 
+                FROM publicacion pub 
+                WHERE pub.vendedor_cuentas_id = p.id_cuenta 
+                AND pub.id IS NOT NULL
+                AND pub.fecha_publicacion BETWEEN p.fecha_pago AND p.fecha_expiracion
+            ) AS publicacionesRealizadas
+        FROM pagos p
+        WHERE p.id_cuenta = :idCuenta
+        AND p.fecha_pago IS NOT NULL
+        AND p.fecha_expiracion > CURRENT_TIMESTAMP
+        ORDER BY p.id_pago DESC
+        LIMIT 1
+        """, nativeQuery = true)
+    Map<String, Object> getVendedorData(@Param("idCuenta") int idCuenta);
 
 } 

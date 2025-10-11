@@ -42,6 +42,9 @@ public class VendedorService {
      return vendedorRepositorio.findAll();
     }
 
+    public Map<String, Object> getVendedorData(int idCuentas) {
+     return vendedorRepositorio.getVendedorData(idCuentas);
+    }
 
     public Vendedor getVendedor(int idCuentas) throws NotFoundEntityException{
      Optional<Vendedor> vendedorOp = vendedorRepositorio.findById(idCuentas);

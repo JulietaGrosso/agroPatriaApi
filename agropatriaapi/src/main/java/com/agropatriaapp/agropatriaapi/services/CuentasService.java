@@ -2,6 +2,7 @@ package com.agropatriaapp.agropatriaapi.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,9 +118,14 @@ public class CuentasService implements UserDetailsService {
                     myInfo.setPlan(plan.get());
                 }
             }
+
+
         } catch (NotFoundEntityException e) {
             myInfo.setVendedor(null);
         }
+
+        Map<String, Object> data = vendedorService.getVendedorData(userId);
+        myInfo.setUserData(data);
 
         return myInfo;
 
