@@ -39,6 +39,12 @@ public class Planes {
     @OneToMany(mappedBy = "planesIdPlan", cascade = CascadeType.ALL, orphanRemoval = true )
     private Set<PlanesCategoria> planesCategorias = new HashSet<>();
 
+    @Getter
+    @Setter
+    @Column(name = "activo")
+    private boolean activo = false;
+
+
     public Planes(){
 
     }

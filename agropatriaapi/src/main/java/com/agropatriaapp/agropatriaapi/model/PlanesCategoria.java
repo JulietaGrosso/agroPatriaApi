@@ -7,7 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 
 @Entity(name="PlanesCategoria")
 public class PlanesCategoria {
@@ -18,7 +18,7 @@ public class PlanesCategoria {
     private int planesIdPlan;
     
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="categorias_id")
     private Categorias categorias;
 
