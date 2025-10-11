@@ -30,7 +30,7 @@ public class PlanService {
     private CategoriaRepositorio categoriaRepositorio;
 
     public List<Planes>getPlanes(){
-        return planRepositorio.findAll();
+        return planRepositorio.findByActivo(true);
     }
 
     
