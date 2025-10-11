@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.agropatriaapp.agropatriaapi.dto.CuentasDto;
 import com.agropatriaapp.agropatriaapi.dto.MyInfoDto;
+import com.agropatriaapp.agropatriaapi.dto.ResetPasswordDto;
 import com.agropatriaapp.agropatriaapi.exceptions.NotFoundEntityException;
 import com.agropatriaapp.agropatriaapi.model.Cuentas;
 import com.agropatriaapp.agropatriaapi.model.Pagos;
@@ -129,6 +130,38 @@ public class CuentasService implements UserDetailsService {
 
         return myInfo;
 
+    }
+
+    public Response resetPassword(ResetPasswordDto resetDto) {
+        if ( !AuthUtil.isAdmin() && resetDto.getId() != AuthUtil.getAuthenticatedUserId() ) {
+            throw new Error("Ute no puede ace' eso :P");
+        } 
+        Optional<Cuentas> cuentasOp = cuentasRepositorio.findById(resetDto.getId());
+        if (!cuentasOp.isPresent()) {
+            return new Response(false, "Cuenta no encontrada.");
+        } else {
+            Cuentas cuentas = cuentasOp.get();
+            String contrasenaEncript = EncryptUtils.encriptarContrasena(resetDto.getContrasena());
+            cuentas.setContrasena(contrasenaEncript);
+            cuentasRepositorio.save(cuentas);
+            return new Response(true, "Actualizada correctamente");
+        }
+    }
+
+    public Response updateActividadCuenta(int idCuenta, boolean activo) {
+        if ( !AuthUtil.isAdmin() && idCuenta != AuthUtil.getAuthenticatedUserId() ) {
+            throw new Error("Ute no puede ace' eso :P");
+        } 
+
+        Optional<Cuentas> cuentasOp = cuentasRepositorio.findById(idCuenta);
+        if (!cuentasOp.isPresent()) {
+            return new Response(false, "Cuenta no encontrada.");
+        } else {
+            Cuentas cuentas = cuentasOp.get();
+            cuentas.setActivo(activo);
+            cuentasRepositorio.save(cuentas);
+            return new Response(true, "Actualizada correctamente");
+        }
     }
 
 }
