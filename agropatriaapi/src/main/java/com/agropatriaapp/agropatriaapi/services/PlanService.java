@@ -51,6 +51,7 @@ public class PlanService {
         planes.setDuracionDias(planDto.getDuracion_dias());
         planes.setPrecio(planDto.getPrecio());
         planes.setTitulo(planDto.getTitulo());
+        planes.setActivo(true);
         Planes planGuardado = planRepositorio.save(planes);
 
         for(Integer idCategoria : planDto.getIdsCategoria()){

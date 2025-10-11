@@ -42,7 +42,7 @@ public class Planes {
     @Getter
     @Setter
     @Column(name = "activo")
-    private boolean activo = false;
+    private boolean activo = true;
 
 
     public Planes(){
