@@ -1,6 +1,8 @@
 package com.agropatriaapp.agropatriaapi.repositorios;
 
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +21,20 @@ public interface PagoRepositorio extends JpaRepository<Pagos, Integer>{
     Pagos findLastPagoByIdCuenta(@Param("idCuenta") int idCuenta);
 
     Optional<Pagos> findByUuidPago(String uuidPago);
+
+    @Query(
+        value = "SELECT p.*, " +
+                "pl.titulo AS nombrePlan, v.nombre AS nombreUsuario " +
+                "FROM pagos p " +
+                "LEFT JOIN planes pl ON p.id_plan = pl.id_plan " +
+                "LEFT JOIN vendedor v ON p.id_cuenta = v.id_cuentas " +
+                "WHERE p.fecha_pago IS NOT NULL " +
+                "AND MONTH(p.fecha_pago) = :mes " +
+                "AND YEAR(p.fecha_pago) = :anio",
+        nativeQuery = true
+    )
+    List<Map<String, Object>> getHistoricoPagos(@Param("mes") int mes, @Param("anio") int anio);
+
 
 }
 

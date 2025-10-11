@@ -38,6 +38,11 @@ public class VendedorService {
         this.pagoRepositorio = pagoRepositorio;
     }
 
+    public List<Vendedor> getVendedores() throws NotFoundEntityException{
+     return vendedorRepositorio.findAll();
+    }
+
+
     public Vendedor getVendedor(int idCuentas) throws NotFoundEntityException{
      Optional<Vendedor> vendedorOp = vendedorRepositorio.findById(idCuentas);
      if(vendedorOp.isPresent()){
