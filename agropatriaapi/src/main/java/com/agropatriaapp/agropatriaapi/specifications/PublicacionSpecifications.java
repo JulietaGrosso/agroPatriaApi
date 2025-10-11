@@ -21,4 +21,9 @@ public class PublicacionSpecifications {
             criteriaBuilder.equal(root.get("condicion"), cond);
     }
 
+    public static Specification<Publicacion> byVendido(Boolean vendido) {
+        return (root, query, criteriaBuilder) -> 
+            criteriaBuilder.equal(root.get("vendido"), vendido);
+    }
+
 }
