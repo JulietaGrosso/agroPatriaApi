@@ -24,7 +24,7 @@ public interface PagoRepositorio extends JpaRepository<Pagos, Integer>{
 
     @Query(
         value = "SELECT p.*, " +
-                "pl.titulo AS nombrePlan, v.nombre AS nombreUsuario " +
+                "pl.titulo AS nombrePlan, v.nombre AS nombreUsuario, v.cuit_vendedor as cuitVendedor " +
                 "FROM pagos p " +
                 "LEFT JOIN planes pl ON p.id_plan = pl.id_plan " +
                 "LEFT JOIN vendedor v ON p.id_cuenta = v.id_cuentas " +

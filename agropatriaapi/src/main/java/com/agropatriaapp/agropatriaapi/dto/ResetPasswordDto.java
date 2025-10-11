@@ -3,19 +3,17 @@ package com.agropatriaapp.agropatriaapi.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-public class CuentasDto {
+public class ResetPasswordDto {
     @Getter
     @Setter
-    private String correo;
+    private int id;
     
     @Getter
     @Setter
     private String contrasena;
 
 
-   public CuentasDto(String correo, String contrasena){
-      this.correo = correo;
-      this.contrasena = contrasena;
+   public ResetPasswordDto(){
   }
 
 

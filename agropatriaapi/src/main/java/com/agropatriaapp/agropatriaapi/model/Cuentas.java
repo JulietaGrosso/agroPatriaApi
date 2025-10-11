@@ -28,6 +28,11 @@ public class Cuentas {
     @Setter
     private boolean isAdmin = false;
 
+    @Column(name = "activo")
+    @Getter
+    @Setter
+    private boolean activo = true;
+
     public Cuentas(){
 
     }
