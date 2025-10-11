@@ -1,9 +1,6 @@
 package com.agropatriaapp.agropatriaapi.services;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,14 +17,12 @@ import com.agropatriaapp.agropatriaapi.dto.MyInfoDto;
 import com.agropatriaapp.agropatriaapi.exceptions.NotFoundEntityException;
 import com.agropatriaapp.agropatriaapi.model.Cuentas;
 import com.agropatriaapp.agropatriaapi.model.Pagos;
+import com.agropatriaapp.agropatriaapi.model.Planes;
 import com.agropatriaapp.agropatriaapi.model.Response;
 import com.agropatriaapp.agropatriaapi.model.Vendedor;
 import com.agropatriaapp.agropatriaapi.repositorios.CuentasRepositorio;
-import com.agropatriaapp.agropatriaapi.repositorios.VendedorRepositorio;
 import com.agropatriaapp.agropatriaapi.utils.AuthUtil;
 import com.agropatriaapp.agropatriaapi.utils.EncryptUtils;
-import com.agropatriaapp.agropatriaapi.utils.Utils;
-
 
 @Service
 public class CuentasService implements UserDetailsService {
@@ -41,15 +36,18 @@ public class CuentasService implements UserDetailsService {
     @Autowired
     private PagoService pagoService;
 
-    public List<Cuentas> getCuentas(){
+    @Autowired
+    private PlanService planService;
+
+    public List<Cuentas> getCuentas() {
         return cuentasRepositorio.findAll();
     }
 
-     public Response postRegistro(CuentasDto cuentasDto){
+    public Response postRegistro(CuentasDto cuentasDto) {
         Optional<Cuentas> cuentasOp = cuentasRepositorio.findByCorreo(cuentasDto.getCorreo());
-        if(cuentasOp.isPresent()){
+        if (cuentasOp.isPresent()) {
             return new Response(false, "Cuenta Existente: Inicie sesión");
-        }else{
+        } else {
             Cuentas cuentas = new Cuentas();
             String contrasenaEncript = EncryptUtils.encriptarContrasena(cuentasDto.getContrasena());
             cuentas.setCorreo(cuentasDto.getCorreo());
@@ -58,21 +56,21 @@ public class CuentasService implements UserDetailsService {
             cuentasRepositorio.save(cuentas);
             return new Response(true, "Agregado Correctamente");
         }
-     }
+    }
 
-     public Response postLogin(CuentasDto cuentasDto) throws NotFoundEntityException{
+    public Response postLogin(CuentasDto cuentasDto) throws NotFoundEntityException {
         Optional<Cuentas> cuentasOp = cuentasRepositorio.findByCorreo(cuentasDto.getCorreo());
-        if(cuentasOp.isPresent()){
+        if (cuentasOp.isPresent()) {
             String contrasena = cuentasDto.getContrasena();
             String contraDB = cuentasOp.get().getContrasena();
-            if(EncryptUtils.verificarContrasena(contrasena, contraDB)){
+            if (EncryptUtils.verificarContrasena(contrasena, contraDB)) {
                 String token = JwtService.generateToken(cuentasOp.get().getId());
                 return new Response(true, token);
             }
             throw new NotFoundEntityException("Contraseña incorrecta");
         }
         throw new NotFoundEntityException("Usuario no encontrado");
-     }
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -99,9 +97,8 @@ public class CuentasService implements UserDetailsService {
         int userId = AuthUtil.getAuthenticatedUserId();
         MyInfoDto myInfo = new MyInfoDto();
         Optional<Cuentas> cuentasOp = cuentasRepositorio.findById(userId);
-        
 
-        if ( cuentasOp.isPresent() ) {
+        if (cuentasOp.isPresent()) {
             myInfo.setCuenta(cuentasOp.get());
         }
 
@@ -111,16 +108,21 @@ public class CuentasService implements UserDetailsService {
 
             Pagos pago = pagoService.getLastPayment(userId);
             myInfo.setUltimoPago(pago);
-        }
-        catch(NotFoundEntityException e) {
+
+            if (pago != null) {
+                int planId = pago.getIdPlan();
+                Optional<Planes> plan = planService.getPlan(planId);
+
+                if (plan.isPresent()) {
+                    myInfo.setPlan(plan.get());
+                }
+            }
+        } catch (NotFoundEntityException e) {
             myInfo.setVendedor(null);
         }
 
         return myInfo;
 
     }
-
-
-
 
 }

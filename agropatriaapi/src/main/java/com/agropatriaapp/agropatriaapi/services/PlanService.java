@@ -29,6 +29,10 @@ public class PlanService {
     @Autowired
     private CategoriaRepositorio categoriaRepositorio;
 
+    public Optional<Planes> getPlan(int planId){
+        return planRepositorio.findById(planId);
+    }
+
     public List<Planes>getPlanes(){
         return planRepositorio.findByActivo(true);
     }
