@@ -83,6 +83,8 @@ public class CuentasService implements UserDetailsService {
         Cuentas usuario = cuentasRepositorio.findById(Integer.valueOf(username))
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + username));
 
+        if (!usuario.isActivo()) throw new UsernameNotFoundException("Usuario desactivado.");
+
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         if (usuario.isAdmin()) {
