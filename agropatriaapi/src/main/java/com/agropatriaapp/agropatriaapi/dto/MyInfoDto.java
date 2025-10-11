@@ -2,6 +2,7 @@ package com.agropatriaapp.agropatriaapi.dto;
 
 import com.agropatriaapp.agropatriaapi.model.Cuentas;
 import com.agropatriaapp.agropatriaapi.model.Pagos;
+import com.agropatriaapp.agropatriaapi.model.Planes;
 import com.agropatriaapp.agropatriaapi.model.Vendedor;
 
 import lombok.Getter;
@@ -20,6 +21,10 @@ public class MyInfoDto {
   @Setter
   @Getter
   Pagos UltimoPago;
+
+  @Setter
+  @Getter
+  Planes plan;
 
   public MyInfoDto(){
     
