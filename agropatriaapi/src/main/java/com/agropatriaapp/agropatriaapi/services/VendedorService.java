@@ -38,8 +38,8 @@ public class VendedorService {
         this.pagoRepositorio = pagoRepositorio;
     }
 
-    public List<Vendedor> getVendedores() throws NotFoundEntityException{
-     return vendedorRepositorio.findAll();
+    public List<Map<String, Object>> getVendedores() throws NotFoundEntityException{
+     return vendedorRepositorio.getVendedoresConCuenta();
     }
 
     public Map<String, Object> getVendedorData(int idCuentas) {
