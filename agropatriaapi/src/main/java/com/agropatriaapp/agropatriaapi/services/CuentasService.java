@@ -64,6 +64,9 @@ public class CuentasService implements UserDetailsService {
     public Response postLogin(CuentasDto cuentasDto) throws NotFoundEntityException {
         Optional<Cuentas> cuentasOp = cuentasRepositorio.findByCorreo(cuentasDto.getCorreo());
         if (cuentasOp.isPresent()) {
+            if ( !cuentasOp.get().isActivo() ) throw new NotFoundEntityException("Su usuario se encuentra desactivado.");
+
+
             String contrasena = cuentasDto.getContrasena();
             String contraDB = cuentasOp.get().getContrasena();
             if (EncryptUtils.verificarContrasena(contrasena, contraDB)) {
@@ -79,6 +82,8 @@ public class CuentasService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Cuentas usuario = cuentasRepositorio.findById(Integer.valueOf(username))
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + username));
+
+        if (!usuario.isActivo()) throw new UsernameNotFoundException("Usuario desactivado.");
 
         List<GrantedAuthority> authorities = new ArrayList<>();
 
