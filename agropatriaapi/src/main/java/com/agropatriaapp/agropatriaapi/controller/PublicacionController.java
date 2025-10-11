@@ -42,7 +42,8 @@ public class PublicacionController {
     public ResponseEntity<?> getPublicaciones(
       @RequestParam(required = false) Integer vendedor,
       @RequestParam(required = false) Integer producto,
-      @RequestParam(required = false) Integer condicion
+      @RequestParam(required = false) Integer condicion,
+      @RequestParam(required = false) Integer vendido
     ) {
       PublicacionFiltroDto filtros =
           PublicacionFiltroDto
@@ -50,6 +51,7 @@ public class PublicacionController {
           .producto(producto)
           .condicion(condicion)
           .vendedor(vendedor)
+          .vendido(vendido)
           .build();
 
       List<Publicacion> publicacion = publicacionService.getPublicaciones(filtros);

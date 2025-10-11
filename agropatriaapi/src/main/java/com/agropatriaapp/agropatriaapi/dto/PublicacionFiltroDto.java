@@ -18,4 +18,7 @@ public class PublicacionFiltroDto {
   @Setter
   Integer condicion;
 
+  @Getter
+  @Setter
+  Integer vendido;
 }

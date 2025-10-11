@@ -38,12 +38,16 @@ public class PublicacionService {
         Integer vendedorId = listaFiltros.getVendedor();
         Integer productoId = listaFiltros.getProducto();
         Integer condicion = listaFiltros.getCondicion();
+        Integer vendido = listaFiltros.getVendido();
+
+        // Por defecto se filtran aquellos no vendidos.
+        if ( vendido == null) vendido = 0;
 
         Specification<Publicacion> filtro = Specification.unrestricted();
         if ( vendedorId != null ) filtro = filtro.and(PublicacionSpecifications.byVendedorId(vendedorId));
         if ( productoId != null ) filtro = filtro.and(PublicacionSpecifications.byProductoId(productoId));
         if ( condicion != null ) filtro = filtro.and(PublicacionSpecifications.byCondicion(condicion));
-        
+        if (vendido != null) filtro = filtro.and(PublicacionSpecifications.byVendido(vendido.equals(1)));
         return publicacionRespositorio.findAll(filtro);
     }
 
