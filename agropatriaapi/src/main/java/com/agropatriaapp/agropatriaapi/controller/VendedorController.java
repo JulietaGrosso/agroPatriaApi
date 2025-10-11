@@ -36,6 +36,16 @@ public class VendedorController {
     @Autowired
     private VendedorService vendedorService;
 
+    @GetMapping("todos")
+    public ResponseEntity<?> getVendedores() {
+       try{
+        return ResponseEntity.ok(vendedorService.getVendedores());
+        }catch(NotFoundEntityException e){
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(new Response(false, "El vendedor no se encontró"));
+        }
+    }
+
     @GetMapping("{idCuentas}")
     public ResponseEntity<?> getVendedor(@PathVariable("idCuentas") int idCuentas) {
        try{

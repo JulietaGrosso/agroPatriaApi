@@ -20,4 +20,13 @@ public interface VendedorRepositorio extends JpaRepository<Vendedor, Integer> {
         nativeQuery = true
       )
     List<Map<String, Object>> getVendedoresConfiaron();
+
+    @Query(
+        value = "SELECT v.id_cuentas AS idCuentas, v.nombre AS nombre, c.email AS email " +
+                "FROM vendedor v " +
+                "JOIN cuentas c ON v.id_cuentas = c.id",
+        nativeQuery = true
+    )
+    List<Map<String, Object>> findAllVendedoresConEmail();
+
 } 
