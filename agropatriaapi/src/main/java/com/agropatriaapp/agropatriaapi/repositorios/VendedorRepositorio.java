@@ -48,4 +48,22 @@ public interface VendedorRepositorio extends JpaRepository<Vendedor, Integer> {
         """, nativeQuery = true)
     Map<String, Object> getVendedorData(@Param("idCuenta") int idCuenta);
 
+
+    @Query(value = """
+        SELECT 
+            v.id_cuentas AS idCuentas,
+            v.nombre AS nombre,
+            v.razon AS razon,
+            v.cuit_vendedor AS cuitVendedor,
+            v.localidad_vendedor AS localidadVendedor,
+            v.provincia_vendedor AS provinciaVendedor,
+            v.logo_vendedor AS logo,
+            v.planes_id_plan AS planesIdPlan,
+            v.contacto AS contacto,
+            c.activo AS isActivo
+        FROM vendedor v
+        LEFT JOIN cuentas c ON v.id_cuentas = c.id
+        """, nativeQuery = true)
+    List<Map<String, Object>> getVendedoresConCuenta();
+
 } 
