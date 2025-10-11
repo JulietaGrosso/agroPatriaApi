@@ -33,17 +33,17 @@ public class PlanService {
         return planRepositorio.findByActivo(true);
     }
 
-    
-
     @Transactional
     public Response deletePlan(int idPlan){
-        planCategoriaRepositorio.deleteByPlanesIdPlan(idPlan);
-        planRepositorio.deleteById(idPlan);
+        Optional<Planes> planesOp = planRepositorio.findById(idPlan);
+        if ( planesOp.isPresent() ) {
+            Planes plan = planesOp.get();
+            plan.setActivo(false);
+            planRepositorio.save(plan);
+        }
         return new Response(true, "Plan eliminado correctamente");
     }
 
-
-    
     public Response postPlan(PlanDto planDto){
         Planes planes = new Planes();
         planes.setCantidadPublic(planDto.getCantidad_public());
