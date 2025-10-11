@@ -66,6 +66,7 @@ public class PublicacionService {
         publicacion.setPrecio(publicacionDto.getPrecio());
         publicacion.setImagenes(publicacionDto.getImagenes());
         publicacion.setPrecio(publicacionDto.getPrecio());
+        publicacion.setModelo(publicacionDto.getModelo());
         publicacionRespositorio.save(publicacion);
         return new Response(true, "Agregado Correctamente");
     }
@@ -89,6 +90,7 @@ public class PublicacionService {
             publicacion.setCiudad(publicacionDto.getCiudad());
             publicacion.setPrecio(publicacionDto.getPrecio());
             publicacion.setImagenes(publicacionDto.getImagenes());
+            publicacion.setModelo(publicacionDto.getModelo());
             publicacionRespositorio.save(publicacion);
             return new Response(true, "Se actualizó correctamente");
         }
