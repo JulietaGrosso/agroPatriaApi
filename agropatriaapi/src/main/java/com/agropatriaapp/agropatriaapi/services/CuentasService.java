@@ -55,6 +55,7 @@ public class CuentasService implements UserDetailsService {
             cuentas.setCorreo(cuentasDto.getCorreo());
             cuentas.setContrasena(contrasenaEncript);
             cuentas.setAdmin(false);
+            cuentas.setActivo(true);
             cuentasRepositorio.save(cuentas);
             return new Response(true, "Agregado Correctamente");
         }
