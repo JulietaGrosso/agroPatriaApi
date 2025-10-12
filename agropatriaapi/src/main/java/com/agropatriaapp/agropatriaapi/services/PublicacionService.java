@@ -15,7 +15,6 @@ import com.agropatriaapp.agropatriaapi.model.Response;
 import com.agropatriaapp.agropatriaapi.repositorios.PublicacionRespositorio;
 import com.agropatriaapp.agropatriaapi.specifications.PublicacionSpecifications;
 import com.agropatriaapp.agropatriaapi.utils.AuthUtil;
-import com.agropatriaapp.agropatriaapi.utils.Utils;
 
 @Service
 public class PublicacionService {
@@ -71,6 +70,8 @@ public class PublicacionService {
         publicacion.setImagenes(publicacionDto.getImagenes());
         publicacion.setPrecio(publicacionDto.getPrecio());
         publicacion.setModelo(publicacionDto.getModelo());
+        publicacion.setCategoria(publicacionDto.getCategoria());
+        publicacion.setMoneda(publicacionDto.getMoneda());
         publicacionRespositorio.save(publicacion);
         return new Response(true, "Agregado Correctamente");
     }
@@ -95,6 +96,8 @@ public class PublicacionService {
             publicacion.setPrecio(publicacionDto.getPrecio());
             publicacion.setImagenes(publicacionDto.getImagenes());
             publicacion.setModelo(publicacionDto.getModelo());
+            publicacion.setMoneda(publicacionDto.getMoneda());
+            publicacion.setCategoria(publicacionDto.getCategoria());
             publicacionRespositorio.save(publicacion);
             return new Response(true, "Se actualizó correctamente");
         }

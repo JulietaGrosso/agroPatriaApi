@@ -87,7 +87,7 @@ public List<Productos> getProductos(Integer categoriaFiltro, Integer condicionFi
         String images = "[" + publicacionDto.getImagenes().get(0) + "]";
 
         producto.setImagen(images);
-        producto.setMoneda("$");
+        producto.setMoneda(publicacionDto.getMoneda());
         producto.setNombre(publicacionDto.getModelo());
         producto.setPrecio(publicacionDto.getPrecio());
         producto.setRegion(publicacionDto.getCiudad());

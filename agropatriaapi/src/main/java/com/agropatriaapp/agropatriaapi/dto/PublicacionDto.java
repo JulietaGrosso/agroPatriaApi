@@ -46,6 +46,10 @@ public class PublicacionDto {
 
     @Getter
     @Setter
+    private String moneda;
+
+    @Getter
+    @Setter
     private Integer categoria;
 
     @Getter
