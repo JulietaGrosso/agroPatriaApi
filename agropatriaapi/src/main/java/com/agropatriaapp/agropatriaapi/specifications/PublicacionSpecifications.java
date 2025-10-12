@@ -13,6 +13,11 @@ public class PublicacionSpecifications {
             criteriaBuilder.equal(root.get("vendedorCuentasId"), vendedorId);
     }
 
+    public static Specification<Publicacion> byCategoriaId(Integer categoriaId) {
+        return (root, query, criteriaBuilder) -> 
+            criteriaBuilder.equal(root.get("categoria"), categoriaId);
+    }
+
     public static Specification<Publicacion> byProductoId(Integer productoId) {
         return (root, query, criteriaBuilder) -> 
             criteriaBuilder.equal(root.get("productosId"), productoId);

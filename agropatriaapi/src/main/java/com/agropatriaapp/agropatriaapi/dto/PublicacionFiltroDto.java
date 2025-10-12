@@ -20,6 +20,10 @@ public class PublicacionFiltroDto {
 
   @Getter
   @Setter
+  Integer categoria;
+
+  @Getter
+  @Setter
   Integer vendido;
 
   @Setter

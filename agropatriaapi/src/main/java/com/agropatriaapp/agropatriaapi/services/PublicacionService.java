@@ -38,6 +38,7 @@ public class PublicacionService {
         Integer productoId = listaFiltros.getProducto();
         Integer condicion = listaFiltros.getCondicion();
         Integer vendido = listaFiltros.getVendido();
+        Integer categoria = listaFiltros.getCategoria();
         int page = 0;
         int pageSize = 100000;
 
@@ -48,6 +49,7 @@ public class PublicacionService {
         if ( vendedorId != null ) filtro = filtro.and(PublicacionSpecifications.byVendedorId(vendedorId));
         if ( productoId != null ) filtro = filtro.and(PublicacionSpecifications.byProductoId(productoId));
         if ( condicion != null ) filtro = filtro.and(PublicacionSpecifications.byCondicion(condicion));
+        if ( categoria != null ) filtro = filtro.and(PublicacionSpecifications.byCategoriaId(categoria));
         if (vendido != null) filtro = filtro.and(PublicacionSpecifications.byVendido(vendido.equals(1)));
         if ( listaFiltros.getPage() != null ) pageSize = listaFiltros.getPage();
         if ( listaFiltros.getElementsPerPage() != null ) page = listaFiltros.getElementsPerPage();
