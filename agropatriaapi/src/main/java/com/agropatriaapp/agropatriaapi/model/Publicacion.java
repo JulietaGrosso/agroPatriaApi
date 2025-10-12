@@ -45,6 +45,16 @@ public class Publicacion {
     @Column(name = "precio")
     private Integer precio;
 
+    @Column(name = "categoria")
+    @Setter
+    @Getter
+    private Integer categoria;
+
+    @Column(name = "moneda")
+    @Getter
+    @Setter
+    private String moneda;
+
     @Column(name = "imagenes")
     @Lob
     private List<String> imagenes;
