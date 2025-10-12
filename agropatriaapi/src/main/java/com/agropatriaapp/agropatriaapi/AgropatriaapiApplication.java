@@ -9,7 +9,7 @@ import com.mercadopago.MercadoPagoConfig;
 public class AgropatriaapiApplication {
 
 	public static void main(String[] args) {
-		MercadoPagoConfig.setAccessToken("APP_USR-2073197683572192-092712-969d9e0527c2e62f5e1186b108975c1c-570815386");
+		MercadoPagoConfig.setAccessToken("APP_USR-6663264986793431-101216-13479c871aa1d231db8594408d9dbcf3-385481306");
 
 		SpringApplication.run(AgropatriaapiApplication.class, args);
 	}
