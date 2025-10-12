@@ -36,7 +36,7 @@ public class PagoController {
     private PagoService pagoService;
 
     @GetMapping
-    public ResponseEntity<?> getBusquedas(
+    public ResponseEntity<?> getHistoricoPagos(
         @RequestParam int mes,
         @RequestParam int anio) {
     return ResponseEntity.ok(pagoService.getHistoricoPagos(mes, anio));
