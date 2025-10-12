@@ -43,6 +43,7 @@ public class PublicacionController {
       @RequestParam(required = false) Integer producto,
       @RequestParam(required = false) Integer condicion,
       @RequestParam(required = false) Integer vendido,
+      @RequestParam(required = false) Integer categoria,
       @RequestParam(required = false) Integer page,
       @RequestParam(required = false) Integer pageSize
     ) {
@@ -53,6 +54,7 @@ public class PublicacionController {
           .condicion(condicion)
           .vendedor(vendedor)
           .vendido(vendido)
+          .categoria(categoria)
           .elementsPerPage(pageSize)
           .page(page)
           .build();
