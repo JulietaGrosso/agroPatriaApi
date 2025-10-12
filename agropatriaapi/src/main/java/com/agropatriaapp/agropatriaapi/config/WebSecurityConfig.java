@@ -45,6 +45,8 @@ public class WebSecurityConfig {
                     config.addAllowedOrigin("http://localhost:3000");
                     config.addAllowedOrigin("http://localhost:5173");
                     config.addAllowedOrigin("https://julietagrosso.github.io");
+                    config.addAllowedOrigin("https://agropatria.com");
+                    config.addAllowedOrigin("https://www.agropatria.com");
                     config.addAllowedHeader("*");
                     // Permitimos todos los métodos
                     config.addAllowedMethod("GET");
