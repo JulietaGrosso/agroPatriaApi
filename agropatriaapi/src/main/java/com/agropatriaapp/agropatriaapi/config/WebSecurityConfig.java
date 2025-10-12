@@ -61,22 +61,25 @@ public class WebSecurityConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests
-                                .requestMatchers("/cuenta/login", "/cuenta/registro", "/mercadopago/notification/*").permitAll()
-                                .anyRequest().authenticated()
-                                .requestMatchers(HttpMethod.GET, 
-                                    "/tutoriales", "/tutoriales/*",
-                                    "/vendedor", "/vendedor/*",
-                                    "/busqueda/busca",
-                                    "/plan",
-                                    "/productos/producto",
-                                    "/productos/buscar",
-                                    "/publicacion",
-                                    "/publicacion/*",
-                                    "/seguros",
-                                    "/textos/*"
-                                ).permitAll()
+                    authorizeRequests
+                        // POST públicos
+                        .requestMatchers("/cuenta/login", "/cuenta/registro", "/mercadopago/notification/*").permitAll()
+                        // GET públicos
+                        .requestMatchers(HttpMethod.GET, 
+                            "/tutoriales", "/tutoriales/*",
+                            "/vendedor", "/vendedor/*",
+                            "/busqueda/busca",
+                            "/plan",
+                            "/productos/producto",
+                            "/productos/buscar",
+                            "/publicacion",
+                            "/publicacion/*",
+                            "/seguros",
+                            "/textos/*"
+                        ).permitAll()
+                        .anyRequest().authenticated()
                 );
+
         // Add the JWT Token filter before the UsernamePasswordAuthenticationFilter
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
