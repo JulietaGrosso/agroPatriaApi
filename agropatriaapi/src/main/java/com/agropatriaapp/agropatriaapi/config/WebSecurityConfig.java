@@ -3,6 +3,7 @@ package com.agropatriaapp.agropatriaapi.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -61,8 +62,20 @@ public class WebSecurityConfig {
                 )
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/cuenta/login", "/cuenta/registro", "/mercadopago/notification/*").permitAll() // Use 'requestMatchers' instead of 'antMatchers'
+                                .requestMatchers("/cuenta/login", "/cuenta/registro", "/mercadopago/notification/*").permitAll()
                                 .anyRequest().authenticated()
+                                .requestMatchers(HttpMethod.GET, 
+                                    "/tutoriales", "/tutoriales/*",
+                                    "/vendedor", "/vendedor/*",
+                                    "/busqueda/busca",
+                                    "/plan",
+                                    "/productos/producto",
+                                    "/productos/buscar",
+                                    "/publicacion",
+                                    "/publicacion/*",
+                                    "/seguros",
+                                    "/textos/*"
+                                ).permitAll()
                 );
         // Add the JWT Token filter before the UsernamePasswordAuthenticationFilter
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

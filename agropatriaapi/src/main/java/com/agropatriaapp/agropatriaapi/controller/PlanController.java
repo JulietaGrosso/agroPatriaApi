@@ -28,14 +28,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("plan")
 public class PlanController {
 
-    private final BusquedaService busquedaService;
-
     @Autowired
     private PlanService planService;
-
-    PlanController(BusquedaService busquedaService) {
-        this.busquedaService = busquedaService;
-    }
 
     @GetMapping
     public ResponseEntity<?> getPlanes(){
