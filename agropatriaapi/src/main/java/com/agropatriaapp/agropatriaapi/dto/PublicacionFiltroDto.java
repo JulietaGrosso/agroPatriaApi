@@ -21,4 +21,12 @@ public class PublicacionFiltroDto {
   @Getter
   @Setter
   Integer vendido;
+
+  @Setter
+  @Getter
+  Integer page;
+
+  @Getter
+  @Setter
+  Integer elementsPerPage;
 }

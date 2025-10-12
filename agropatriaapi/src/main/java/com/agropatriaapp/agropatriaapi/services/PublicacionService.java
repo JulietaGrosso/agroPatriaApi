@@ -39,6 +39,8 @@ public class PublicacionService {
         Integer productoId = listaFiltros.getProducto();
         Integer condicion = listaFiltros.getCondicion();
         Integer vendido = listaFiltros.getVendido();
+        int page = 0;
+        int pageSize = 100000;
 
         // Por defecto se filtran aquellos no vendidos.
         if ( vendido == null) vendido = 0;
@@ -48,7 +50,9 @@ public class PublicacionService {
         if ( productoId != null ) filtro = filtro.and(PublicacionSpecifications.byProductoId(productoId));
         if ( condicion != null ) filtro = filtro.and(PublicacionSpecifications.byCondicion(condicion));
         if (vendido != null) filtro = filtro.and(PublicacionSpecifications.byVendido(vendido.equals(1)));
-        return publicacionRespositorio.findAll(filtro);
+        if ( listaFiltros.getPage() != null ) pageSize = listaFiltros.getPage();
+        if ( listaFiltros.getElementsPerPage() != null ) page = listaFiltros.getElementsPerPage();
+        return publicacionRespositorio.findAll(filtro, PublicacionSpecifications.withPagination(page, pageSize)).getContent();
     }
 
     public Response postPublicacion(PublicacionDto publicacionDto){

@@ -42,7 +42,9 @@ public class PublicacionController {
       @RequestParam(required = false) Integer vendedor,
       @RequestParam(required = false) Integer producto,
       @RequestParam(required = false) Integer condicion,
-      @RequestParam(required = false) Integer vendido
+      @RequestParam(required = false) Integer vendido,
+      @RequestParam(required = false) Integer page,
+      @RequestParam(required = false) Integer pageSize
     ) {
       PublicacionFiltroDto filtros =
           PublicacionFiltroDto
@@ -51,6 +53,8 @@ public class PublicacionController {
           .condicion(condicion)
           .vendedor(vendedor)
           .vendido(vendido)
+          .elementsPerPage(pageSize)
+          .page(page)
           .build();
 
       List<Publicacion> publicacion = publicacionService.getPublicaciones(filtros);
