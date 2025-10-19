@@ -20,7 +20,7 @@ public class PublicacionFiltroDto {
 
   @Getter
   @Setter
-  Integer categoria;
+  String categoria;
 
   @Getter
   @Setter

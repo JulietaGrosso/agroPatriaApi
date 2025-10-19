@@ -1,5 +1,6 @@
 package com.agropatriaapp.agropatriaapi.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,22 +35,29 @@ public class PublicacionService {
     }
 
     public List<Publicacion> getPublicaciones(PublicacionFiltroDto listaFiltros){
+        Specification<Publicacion> filtro = Specification.unrestricted();
+
         Integer vendedorId = listaFiltros.getVendedor();
         Integer productoId = listaFiltros.getProducto();
         Integer condicion = listaFiltros.getCondicion();
         Integer vendido = listaFiltros.getVendido();
-        Integer categoria = listaFiltros.getCategoria();
+        String categoria = listaFiltros.getCategoria();
         int page = 0;
         int pageSize = 100000;
 
         // Por defecto se filtran aquellos no vendidos.
         if ( vendido == null) vendido = 0;
 
-        Specification<Publicacion> filtro = Specification.unrestricted();
+        // combinamos el OR con el filtro inicial
+        Specification<Publicacion> orCategorias = this.getCategoriaFilter(categoria);
+        if (orCategorias != null) {
+            filtro = filtro.and(orCategorias);
+        }
+
+
         if ( vendedorId != null ) filtro = filtro.and(PublicacionSpecifications.byVendedorId(vendedorId));
         if ( productoId != null ) filtro = filtro.and(PublicacionSpecifications.byProductoId(productoId));
         if ( condicion != null ) filtro = filtro.and(PublicacionSpecifications.byCondicion(condicion));
-        if ( categoria != null ) filtro = filtro.and(PublicacionSpecifications.byCategoriaId(categoria));
         if (vendido != null) filtro = filtro.and(PublicacionSpecifications.byVendido(vendido.equals(1)));
         if ( listaFiltros.getPage() != null ) pageSize = listaFiltros.getPage();
         if ( listaFiltros.getElementsPerPage() != null ) page = listaFiltros.getElementsPerPage();
@@ -107,6 +115,32 @@ public class PublicacionService {
     }
 
 
+    private Specification<Publicacion> getCategoriaFilter(String categoria){
+
+        // Obtenemos categorias
+        String[] categorias = {categoria};
+        if (categoria.contains(",")) categorias = categoria.split(",");
+
+        Specification<Publicacion> orSpec = null;
+
+        // Recorremos cada categoría para el filtro.
+        for(String cat : categorias) {
+            try {
+                int catNumber = Integer.parseInt(cat);
+                Specification<Publicacion> catSpec = PublicacionSpecifications.byCategoriaId(catNumber);
+
+                if (orSpec == null) {
+                    orSpec = catSpec; // la primera
+                } else {
+                    orSpec = orSpec.or(catSpec); // agregamos OR
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Error al convertir " + cat + " en numero.");
+            }
+        }
+
+        return orSpec;
+    }
 
 
 }
