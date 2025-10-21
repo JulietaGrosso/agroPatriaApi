@@ -82,6 +82,7 @@ public class PublicacionService {
         publicacion.setModelo(publicacionDto.getModelo());
         publicacion.setCategoria(publicacionDto.getCategoria());
         publicacion.setMoneda(publicacionDto.getMoneda());
+        publicacion.setFinanciacion(publicacionDto.getFinanciacion());
         publicacionRespositorio.save(publicacion);
         return new Response(true, "Agregado Correctamente");
     }
@@ -108,6 +109,7 @@ public class PublicacionService {
             publicacion.setModelo(publicacionDto.getModelo());
             publicacion.setMoneda(publicacionDto.getMoneda());
             publicacion.setCategoria(publicacionDto.getCategoria());
+            publicacion.setFinanciacion(publicacionDto.getFinanciacion());
             publicacionRespositorio.save(publicacion);
             return new Response(true, "Se actualizó correctamente");
         }

@@ -54,6 +54,10 @@ public class PublicacionDto {
 
     @Getter
     @Setter
+    private String financiacion;
+
+    @Getter
+    @Setter
     private List<String> imagenes;
 
 

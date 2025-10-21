@@ -55,6 +55,11 @@ public class Publicacion {
     @Setter
     private String moneda;
 
+    @Column(name = "financiacion")
+    @Getter
+    @Setter
+    private String financiacion;
+
     @Column(name = "imagenes")
     @Lob
     private List<String> imagenes;
