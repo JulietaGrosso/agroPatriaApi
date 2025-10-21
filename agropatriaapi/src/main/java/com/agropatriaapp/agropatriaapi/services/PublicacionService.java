@@ -116,7 +116,7 @@ public class PublicacionService {
 
 
     private Specification<Publicacion> getCategoriaFilter(String categoria){
-
+        if ( categoria == null) return null;
         // Obtenemos categorias
         String[] categorias = {categoria};
         if (categoria.contains(",")) categorias = categoria.split(",");
